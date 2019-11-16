@@ -1,1 +1,212 @@
+#д.з. Классы и их применение в Python
+# на ферме 
 
+class Bird:
+    age = 0 # year
+    eggs = 0 #piece
+    status = 'Голодный'
+    feed_status = 0
+    egg_status = 'Яйца не собраны'
+
+    def __init__(self, name, weight): #можно задавать разные атрибуты
+        self.name = name
+        self.weight = weight
+
+    def __gt__(self, other):
+        return self.weight > other.weight
+
+    def collecting_eags(self, collect_time):
+            self.eggs * collect_time
+            if collect_time > 0:
+                self.egg_status = 'яйца собраны'
+                print('Собрали', self.eggs * collect_time, 'яйца(яиц)')
+            else:
+                self.egg_status
+
+    def eat(self, feed):
+         self.feed_status += feed
+         if feed > 0:
+             self.status = self.name + ' накормлена'
+         else:
+             self.status
+
+class Goose(Bird):
+    voice = 'га га га'
+    eggs = 2
+
+    def eat(self, feed):
+        self.feed_status += feed
+        if feed > 0:
+            self.status = self.name + ' накормлен'
+        else:
+            self.status
+
+class Duck(Bird):
+    voice = 'кря кря'
+    eggs = 1
+    status = 'Голодная'
+
+    def eat(self, feed):
+         self.feed_status += feed
+         if feed > 0:
+             self.status = self.name + ' накормлена'
+         else:
+             self.status
+
+
+class Chiken(Bird):
+    voice = 'ко ко ко'
+    eggs = 2
+    status = 'Голодная'
+
+#куры
+chiken1 = Chiken('Ко-Ко', 0.5)
+chiken2 = Chiken('Кукареку', 0.6)
+
+#гуси
+goose1 = Goose('Белый', 4)
+goose2 = Goose('Серый', 5)
+
+#утка
+duck = Duck('Кряква', 2.5)
+
+
+print('\n'+chiken2.voice)
+print('вес', (chiken2.weight), 'кг')
+chiken2.eat(1)                         #кормим
+chiken2.collecting_eags(2)             #собираем яйца
+print(chiken2.status)
+print(chiken2.egg_status)
+
+
+print('\n'+goose1.name)
+print(goose1.voice)
+print('вес', (goose1.weight), 'кг')
+goose1.eat(1)                           #кормим
+goose1.collecting_eags(2)               #собираем яйца
+print(goose1.status)
+print(goose1.egg_status)
+
+print('\n'+goose2.name)
+print('вес', (goose2.weight), 'кг')
+goose2.collecting_eags(0)             #собираем яйца
+goose2.eat(1)                       #кормим
+print(goose2.status)
+print(goose2.egg_status)
+
+print('\n'+duck.name)
+print(duck.voice)
+print('вес', (duck.weight), 'кг')
+duck.eat(1)                             #кормим
+duck.collecting_eags(3)                   #собираем яйца
+print(duck.status)
+print(duck.egg_status)
+
+class Dairy_animals:
+    age = 0  # year
+    milk = 0  # liter
+    number_of_feedings = 0  # time
+    collecting_milk = 0  # time
+    collecting_wool = 0  # time
+    status = 'Голодная'
+    feed_status = 0
+    milk_status = 'не подоен(а)'
+
+
+    def __init__(self, name, weight): #можно задавать разные атрибуты
+         self.name = name
+         self.weight = weight
+
+    def __gt__(self, other):
+        return self.weight > other.weight
+
+    def collecting_milk(self, collect_time):
+            self.milk * collect_time
+            if collect_time > 0:
+                self.milk_status = self.name + ' подоена'
+                print('Собрали', self.milk * collect_time, 'литр(а) молока')
+            else:
+                self.milk_status
+                
+          def eat(self, feed):
+        self.feed_status += feed
+        if feed > 0:
+            self.status = self.name + ' накормлена'
+        else:
+            self.status
+
+class Cow(Dairy_animals):
+    voice = 'муууу'
+    milk = 4
+    color = 'spotty'
+
+#корова
+cow = Cow('Манька', 90)
+
+print('\n'+cow.name)
+print(cow.voice)
+print('вес', (cow.weight), 'кг')
+cow.eat(1)                         #кормим
+cow.collecting_milk(1)              #доим
+print(cow.status)
+print(cow.milk_status)
+
+
+class Goat(Dairy_animals):
+    voice = 'мееее'
+    milk = 1
+
+#козы
+goat1 = Goat('Рога', 6)
+goat2 = Goat('Копыта', 6)
+
+
+print('\n'+goat1.name)
+print(goat1.voice)
+print('вес', (goat1.weight), 'кг')
+goat1.eat(1)                         #кормим
+goat1.collecting_milk(1)             #доим
+print(goat1.status)
+print(goat1.milk_status)
+
+
+class Sheep(Dairy_animals):
+        voice = 'бееее'
+        wool = 3  # kilo
+        wool_status = 'не стрижен'
+        milk_status = 'не доится'
+        status = 'Голоднsq'
+
+        def collecting_wool(self, collect_time):
+            self.wool * collect_time
+            if collect_time > 0:
+                self.wool_status = self.name + ' стрижен'
+                print('Собрали', self.wool * collect_time, 'кг шерсти')
+            else:
+                self.wool_status
+
+#барашки
+sheep1 = Sheep('Барашек', 6)
+sheep2 = Sheep('Кудрявый', 6.5)
+
+
+print('\n'+sheep1.name)
+print(sheep1.voice)
+print('вес', (sheep1.weight), 'кг')
+sheep1.eat(1)                             #кормим
+sheep1.collecting_wool(1)                 #собираем шерсть
+print(sheep1.status)
+print(sheep1.wool_status)
+
+#считаем самого тяжелого и общий вес животных
+animals_dict = [goose1.__dict__, goose2.__dict__, cow.__dict__, sheep1.__dict__, sheep2.__dict__, chiken1.__dict__, chiken2.__dict__, goat1.__dict__, goat2.__dict__, duck.__dict__]
+
+animals_weight = [goose1.weight, goose2.weight, cow.weight, sheep1.weight, sheep2.weight, chiken1.weight, chiken2.weight, goat1.weight, goat2.weight, duck.weight]
+
+animal_w = 0
+for key in animals_dict:
+    if key['weight'] == max(animals_weight):
+        print('\nСамый большой вес у', key['name'], '-', max(animals_weight), 'кг')
+
+print('\nОбщий вес животных', sum(animals_weight), 'кг')
+        
