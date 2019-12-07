@@ -20,8 +20,19 @@ def get_cook_book():
 
 #get_cook_book()
 
-def shop_list(dishes, person_count):
-   
-  
-   
-shop_list(['Омлет', 'Омлет'], 3)
+def shop_list(dishes, person_count):   
+        from collections import Counter
+        shop_list = {}
+        cook_book = get_cook_book()
+        for dish in dishes:
+            c = Counter(dishes)
+            #print(c[dish])
+            for ingredients in cook_book[dish]:
+                menu = dict(ingredients)
+                menu['quantity'] *= (int(person_count)*c[dish])
+                if menu['ingridient_name'] not in shop_list:
+                    shop_list[menu['ingridient_name']] = {'measure': menu['measure'], 'quantity': menu['quantity']}
+        print(shop_list)
+        return shop_list
+
+shop_list(['Омлет', 'Омлет', 'Утка по-пекински'], 3) 
