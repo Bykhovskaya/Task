@@ -6,17 +6,19 @@ import requests
 
 TOKEN = "73eaea320bdc0d3299faa475c196cfea1c4df9da4c6d291633f9fe8f83c08c4de2a3abf89fbc3ed8a44e1"
 
+user_id = input("Введите id пользователя или его screen name")
 class User:
 
-    def __init__(self, access_token):
-        self.access_token = access_token
+    def __init__(self, TOKEN):
+        self.access_token = TOKEN
 
     def get_params(self):
         return {
             "access_token": self.access_token,
             "v": 5.101,
             "extended": 1,
-            "fields": "members_count"
+            "fields": "members_count",
+            "iser_ids": user_id
         }
 
     def get_info(self):
