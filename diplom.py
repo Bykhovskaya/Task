@@ -2,7 +2,7 @@
 
 from pprint import pprint
 import json
-
+import time
 
 import requests
 
@@ -15,14 +15,13 @@ class User:
     def __init__(self, TOKEN):
         self.access_token = TOKEN
 
-
     def get_params(self):
         return {
             "access_token": self.access_token,
             "v": 5.101,
             "extended": 1,
-            "fields": "members_count", #"deactivated"
-            'user_ids': user_id
+            "fields": "members_count",
+            'user_id': user_id
         }
 
     def get_info(self):
@@ -41,6 +40,15 @@ class User:
         )
         return response.json()
 
+    def get_friends_list(self):
+        params = self.get_params()
+        response = requests.get(
+            "https://api.vk.com/method/friends.getLists",
+            params
+        )
+        return response.json()
+
+
     def get_group(self):
         params = self.get_params()
         response = requests.get(
@@ -50,24 +58,24 @@ class User:
         return response.json()
 
 user = User(TOKEN)
-user_info = user.get_info()
-#pprint(user_info)
 
-#множество друзей пользователя
+#определяем множество друзей пользователя
 user_info_friends = user.get_friends()
+
 friend_id_set = set()
-for n, index_friend in enumerate(user_info_friends['response']["items"]):
+friend_sit = []
+for index_friend in user_info_friends['response']["items"]:
     print('-')
-    friend_id_set.add(index_friend['id'])
-
-print(friend_id_set)
-
+    #friend_id_set.add(index_friend['id'])
+    friend_sit.append(index_friend['id'])
 
 info_group = user.get_group()
+#print('Количество групп:', info_group['response']["count"])
+
 #печатает состав групп
 group_ide = []
 user_group_id = set()
-for i, index in enumerate(info_group['response']["items"]):
+for index in info_group['response']["items"]:
     #print('-')
     #print(news['name'])
     #word.append(news['name'])
@@ -82,35 +90,32 @@ for i, index in enumerate(info_group['response']["items"]):
 #print(group_ide)
 print(user_group_id)
 
-group_id = 4100014
+#
+new_list_group = []
+for number_group in user_group_id:
+    for a in friend_sit:
 
-def get_group_members():
-    params = {
-        "access_token": TOKEN,
-        "v": 5.101,
-        "extended": 1,
-        "fields": "members_count",
-        #"count": 0,
-        #"offset": 0,
-        "group_id": group_id
-    }
-    response = requests.get(
-        "https://api.vk.com/method/groups.getMembers",
-        params
-    )
-    return response.json()
-offset = 0
-count = 0
-array = []
-group_set_user = set()
-while True:
-    resp = get_group_members()
-    array += resp['response']["items"]
-    offset += 1000
-    #group_set_user = set()
-    for id_user_friend in resp['response']["items"]:
-         if offset > id_user_friend["id"]:
-             break
-    for user_friend in array:
-        group_set_user.add(user_friend['id'])
-    print(type(group_set_user))
+        def get_is_group_members():
+            params = {
+               "access_token": TOKEN,
+               "v": 5.101,
+               "extended": 0,
+               "group_id": number_group,
+               "user_ids": a
+            }
+            response = requests.get(
+                 "https://api.vk.com/method/groups.isMember",
+                  params
+            )
+            return response.json()
+#
+        is_user = get_is_group_members()
+        time.sleep(0.42)
+        # print(number_group)
+        #print(is_user.get('response'))
+        for mem_is in is_user.get('response'):
+            print('-')
+            if mem_is['member'] == 1:
+                if number_group not in new_list_group:
+                   new_list_group.append(number_group)
+                   print(new_list_group)
