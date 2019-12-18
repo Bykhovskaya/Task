@@ -119,3 +119,16 @@ for number_group in user_group_id:
                 if number_group not in new_list_group:
                    new_list_group.append(number_group)
                    print(new_list_group)
+  
+group_ide_new = []
+for elem in group_ide:
+    if elem['group_id'] not in new_list_group:
+        group_name = elem['group_name']
+        group_id = elem['group_id']
+        members_count = elem['members_count']
+        ide_new = {'group_name': group_name, 'group_id': group_id, 'members_count': members_count}
+        group_ide_new.append(ide_new)
+
+
+with open('groups.json', "w", encoding='cp1251') as f:
+     json.dump(group_ide_new, f, ensure_ascii=False, indent=2)                    
